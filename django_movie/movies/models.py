@@ -1,6 +1,8 @@
 from datetime import date
 
 from django.db import models
+from django.urls import reverse
+
 
 class Category(models.Model):
     """Категория"""
@@ -44,6 +46,7 @@ class Genre(models.Model):
         verbose_name = 'Жанр'
         verbose_name_plural = 'Жанры'
 
+
 class Movie(models.Model):
     """Фильм"""
     title = models.CharField("Название", max_length=100)
@@ -63,12 +66,16 @@ class Movie(models.Model):
     url = models.SlugField(max_length=160, unique=True)
     draft = models.BooleanField("Черновик", default=False)
 
+    def get_absolute_url(self):
+        return reverse('movie-detail', kwargs={'slug': self.url})
+
     def __str__(self):
         return self.title
 
     class Meta:
         verbose_name = 'Фильм'
         verbose_name_plural = 'Фильмы'
+
 
 class MovieShots(models.Model):
     """Кадры из фильма"""
@@ -84,6 +91,7 @@ class MovieShots(models.Model):
         verbose_name = 'Кадр из фильма'
         verbose_name_plural = 'Кадры из Фильма'
 
+
 class RatingStar(models.Model):
     """Звезда рейтинга"""
     value = models.PositiveSmallIntegerField("Значение", default=0)
@@ -94,6 +102,7 @@ class RatingStar(models.Model):
     class Meta:
         verbose_name = 'Звезда рейтинга'
         verbose_name_plural = 'Звезды рейтинга'
+
 
 class Rating(models.Model):
     """Рейтинг"""
@@ -107,6 +116,7 @@ class Rating(models.Model):
     class Meta:
         verbose_name = 'Рейтинг'
         verbose_name_plural = 'Рейтинги'
+
 
 class Reviews(models.Model):
     """Отзывы"""
