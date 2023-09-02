@@ -69,6 +69,9 @@ class Movie(models.Model):
     def get_absolute_url(self):
         return reverse('movie-detail', kwargs={'slug': self.url})
 
+    def get_review(self):
+        return self.reviews_set.filter(parent__isnull=True)
+
     def __str__(self):
         return self.title
 
